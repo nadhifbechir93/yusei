@@ -69,7 +69,7 @@
     }
   }
   function drawQuestion() {
-    $("qNum").textContent = "Question " + (((+meta.q) % 10) + 1) + (meta.n ? " / " + meta.n : "");
+    $("qNum").textContent = "Question " + (((+meta.q) % (+meta.n || 20)) + 1) + (meta.n ? " / " + meta.n : "");
     $("qText").textContent = meta.text || "";
     var box = $("answers"); box.innerHTML = "";
     for (var i = 0; i < 4; i++) {

@@ -18,6 +18,7 @@ window.MATELE_CONFIG = {
   appellation: "Monsieur",   // comment Yusei t'appelle
   voixTele: "oui",           // "non" = Yusei répond sans parler sur la télé
   voixNom: "Charon",
+  voixMoteur: "relais",   // "relais" = voix Cloudflare (fiable, gratuite) ; "gemini" = voix Google
   recapDemarrage: "oui",
   veilleMinutes: 10,          // écran de veille après 10 min sans rien toucher ("non" pour le couper)
   ageEnfant: 6,               // âge pour les histoires du soir     // "non" = pas de « Bonjour Monsieur » + récap au démarrage         // voix Gemini (Charon = grave et posée)
@@ -30,6 +31,7 @@ window.MATELE_CONFIG = {
   // --- Transports en commun en direct (RER B + tram T11) : Île-de-France Mobilités (gratuit)
   // Compte + jeton gratuit : https://prim.iledefrance-mobilites.fr
   primCle: "",
+  primRelais: "",
   // Identifiant de l'arrêt (MonitoringRef) de la gare du Bourget,
   // à copier depuis le jeu de données "Arrêts" sur le site PRIM.
   // Format du type : "STIF:StopArea:SP:XXXXX:"

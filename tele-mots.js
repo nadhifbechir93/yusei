@@ -61,5 +61,60 @@ window.UC_MOTS = {
     ["Anniversaire", "Mariage"], ["Cadeau", "Surprise"], ["Gâteau", "Tarte"], ["Bébé", "Enfant"], ["Grand-père", "Oncle"],
     ["Vacances", "Week-end"], ["Pique-nique", "Barbecue"], ["Ballon de baudruche", "Guirlande"], ["Photo de famille", "Selfie de groupe"],
     ["Aïd", "Ramadan"], ["Nouvel An", "Anniversaire"], ["Valise", "Sac de voyage"]
+  ],
+  "École": [
+    ["Cahier de textes", "Agenda"], ["Feutre", "Surligneur"], ["Gomme", "Effaceur"], ["Règle", "Équerre"], ["Cartable", "Trousse"],
+    ["Récréation", "Cantine"], ["Maîtresse", "Surveillant"], ["Dictée", "Rédaction"], ["Contrôle", "Examen"], ["Tableau", "Écran"],
+    ["Calculatrice", "Compas"], ["Bibliothèque", "CDI"], ["Devoirs", "Exercices"], ["Vacances scolaires", "Week-end"], ["Collège", "Lycée"],
+    ["Bulletin", "Carnet"], ["Gymnase", "Cour"], ["Craie", "Marqueur"]
+  ],
+  "Pays & villes": [
+    ["France", "Belgique"], ["Tunisie", "Maroc"], ["Japon", "Corée du Sud"], ["Italie", "Espagne"], ["Le Bourget", "Drancy"],
+    ["Tokyo", "Kyoto"], ["Rome", "Venise"], ["New York", "Los Angeles"], ["Tunis", "Sousse"], ["Marseille", "Nice"], ["Égypte", "Turquie"],
+    ["Brésil", "Argentine"], ["Canada", "États-Unis"], ["Sahara", "Atlas"], ["Dubaï", "Doha"], ["Allemagne", "Suisse"],
+    ["Djerba", "Hammamet"], ["Lyon", "Bordeaux"], ["Chine", "Japon"]
+  ],
+  "Jeux vidéo": [
+    ["Mario", "Luigi"], ["Sonic", "Mario"], ["PlayStation", "Xbox"], ["Nintendo Switch", "Game Boy"], ["Manette", "Joystick"],
+    ["Minecraft", "Roblox"], ["Fortnite", "Call of Duty"], ["Zelda", "Final Fantasy"], ["Pokémon Rouge", "Pokémon Bleu"], ["Tetris", "Pac-Man"],
+    ["FIFA", "Rocket League"], ["Mario Kart", "Course de voitures"], ["Boss final", "Niveau bonus"], ["Sauvegarde", "Point de contrôle"], ["Pikachu", "Rondoudou"],
+    ["Link", "Zelda"], ["Peach", "Daisy"], ["Bowser", "Donkey Kong"]
+  ],
+  "Films & dessins animés": [
+    ["Cinéma", "Télévision"], ["Dessin animé", "Film"], ["Pop-corn", "Bonbons"], ["Super-héros", "Super-vilain"], ["Princesse", "Reine"],
+    ["Pirate", "Corsaire"], ["Robot", "Extraterrestre"], ["Sorcier", "Magicien"], ["Dragon", "Dinosaure"], ["Fantôme", "Vampire"],
+    ["Bande-annonce", "Générique"], ["Acteur", "Doubleur"], ["Série", "Saga"], ["Comédie", "Film d'aventure"], ["Ticket", "Abonnement"]
+  ],
+  "Manga · Héros": [
+    ["Naruto", "Luffy"], ["Goku", "Vegeta"], ["Sasuke", "Itachi"], ["Zoro", "Sanji"], ["Light Yagami", "L"],
+    ["Eren", "Livaï"], ["Tanjiro", "Zenitsu"], ["Deku", "Bakugo"], ["Gon", "Kirua"], ["Ichigo", "Rukia"],
+    ["Gohan", "Trunks"], ["Kakashi", "Jiraiya"], ["Nami", "Robin"], ["Nezuko", "Shinobu"], ["Itadori", "Megumi"],
+    ["Gojo", "Sukuna"], ["Saitama", "Genos"], ["Sakura", "Hinata"], ["Mikasa", "Armin"], ["Tsubasa", "Isagi"],
+    ["Conan", "Kaito Kid"], ["Sangoku", "Krilin"], ["Shanks", "Barbe Blanche"], ["Kenshin", "Saitō"], ["Yugi", "Kaiba"]
+  ],
+  "Manga · Séries": [
+    ["One Piece", "Naruto"], ["Dragon Ball Z", "Dragon Ball Super"], ["Naruto", "Boruto"], ["Bleach", "Jujutsu Kaisen"], ["Demon Slayer", "Jujutsu Kaisen"],
+    ["Death Note", "Code Geass"], ["Pokémon", "Digimon"], ["L'Attaque des Titans", "Kaiju n°8"], ["My Hero Academia", "One Punch Man"], ["Hunter x Hunter", "Yu Yu Hakusho"],
+    ["Yu-Gi-Oh!", "Beyblade"], ["Captain Tsubasa", "Blue Lock"], ["Haikyū!!", "Kuroko's Basket"], ["Sailor Moon", "Cardcaptor Sakura"], ["Détective Conan", "Kindaichi"],
+    ["Fairy Tail", "Black Clover"], ["Chainsaw Man", "Fire Force"], ["Spy x Family", "Kaguya-sama"], ["Saint Seiya", "Ken le Survivant"], ["JoJo's Bizarre Adventure", "Mob Psycho 100"],
+    ["Fullmetal Alchemist", "Soul Eater"], ["Tokyo Revengers", "Tokyo Ghoul"], ["Sword Art Online", "Solo Leveling"], ["Doraemon", "Pokémon"]
+  ],
+  "Manga · Pouvoirs & objets": [
+    ["Sharingan", "Byakugan"], ["Rasengan", "Chidori"], ["Kamehameha", "Final Flash"], ["Fruit du Démon", "Alter"], ["Death Note", "Livre de sorts"],
+    ["Super Saiyan", "Mode Sage"], ["Haki", "Nen"], ["Sabre de Zoro", "Katana de Tanjiro"], ["Chapeau de paille", "Bandeau frontal"], ["Boules de cristal", "Pierres d'infinité"],
+    ["Nuage magique", "Planeur"], ["Capsule", "Pokéball"], ["Clone de l'ombre", "Clone de lumière"], ["Respiration de l'eau", "Respiration du feu"], ["Titan colossal", "Titan cuirassé"],
+    ["Zanpakutō", "Sabre laser"], ["Bankai", "Shikai"], ["Gear Second", "Gear Fifth"], ["Extension du territoire", "Barrière magique"], ["Carte Magie", "Carte Piège"]
+  ],
+  "Manga · Lieux & groupes": [
+    ["Konoha", "Suna"], ["Akatsuki", "Brigade fantôme"], ["Équipage du Chapeau de paille", "Équipage de Barbe Blanche"], ["Grand Line", "Nouveau Monde"], ["Bataillon d'exploration", "Brigade spéciale"],
+    ["Pourfendeurs de démons", "Exorcistes"], ["Capsule Corp", "Kame House"], ["Académie Yuei", "Lycée de Jujutsu"], ["Namek", "Planète Vegeta"], ["Mur Maria", "Mur Rose"],
+    ["Soul Society", "Hueco Mundo"], ["Marine", "Révolutionnaires"], ["Ninja", "Samouraï"], ["Équipe 7", "Équipe 10"], ["Tournoi des arts martiaux", "Examen chûnin"],
+    ["Wano", "Skypiea"], ["Village caché", "Château"], ["Arène Pokémon", "Ligue Pokémon"]
+  ],
+  "Manga · Japon & culture": [
+    ["Ramen", "Udon"], ["Sushi", "Onigiri"], ["Katana", "Sabre"], ["Shōnen", "Shōjo"], ["Manga", "Anime"],
+    ["Cosplay", "Déguisement"], ["Mangaka", "Animateur"], ["Kimono", "Yukata"], ["Torii", "Pagode"], ["Matcha", "Thé vert"],
+    ["Mochi", "Dango"], ["Akihabara", "Shibuya"], ["Sensei", "Senpai"], ["Kawaii", "Chibi"], ["Opening", "Ending"],
+    ["Tome", "Chapitre"], ["Shuriken", "Kunai"], ["Bentō", "Pique-nique"], ["Sakura", "Momiji"], ["Mont Fuji", "Volcan"]
   ]
 };

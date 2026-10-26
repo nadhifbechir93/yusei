@@ -7,7 +7,7 @@
 (function () {
   "use strict";
   var T = window.MaTele, $ = function (id) { return document.getElementById(id); }, esc = T.esc;
-  var QTIME = 20, NQ = 10, LETTERS = ["A", "B", "C", "D"];
+  var QTIME = 20, NQ = 20, LETTERS = ["A", "B", "C", "D"];
   var SHAPES = ['<svg viewBox="0 0 24 24"><path d="M12 4 21 19H3z"/></svg>', '<svg viewBox="0 0 24 24"><path d="M12 3 21 12 12 21 3 12z"/></svg>',
     '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/></svg>', '<svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/></svg>'];
   var g = null, pStream = null, aStream = null, tick = null, next = null;
@@ -23,13 +23,22 @@
   function pname(u) { return String(g.players[u].name).replace(/[\u0000-\u001f]/g, "").slice(0, 20); }
   var ICO = '<svg class="h-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="4"/><path d="M9.6 9.3a2.5 2.5 0 1 1 3.6 2.2c-.8.4-1.2 1-1.2 1.8v.4"/><circle cx="12" cy="16.8" r=".7"/></svg>';
 
+  var usedQ = {};   // questions déjà posées pendant cette soirée : on évite de les reposer
   function pickQuestions(cat) {
     var B = window.QUIZ_Q || {}, pool = [];
     if (cat === "melange" || !B[cat]) Object.keys(B).forEach(function (k) { if (k !== "enfants") pool = pool.concat(B[k]); });
     else pool = B[cat].slice();
-    pool = shuffle(pool.slice()).slice(0, cat === "enfants" ? 6 : NQ);
-    if (cat === "enfants" || cat === "sciences") for (var i = 0; i < (cat === "enfants" ? 4 : 2); i++) pool.push(window.QUIZ_MATH(rnd));
-    return shuffle(pool).slice(0, NQ).map(function (q) {   // on mélange aussi l'ordre des réponses
+    var nMath = cat === "enfants" ? 6 : cat === "sciences" ? 3 : 0, want = NQ - nMath;
+    var fresh = pool.filter(function (q) { return !usedQ[q[0]]; });
+    if (fresh.length < want) { pool.forEach(function (q) { delete usedQ[q[0]]; }); fresh = pool.slice(); }
+    var chosen = shuffle(fresh).slice(0, want);
+    chosen.forEach(function (q) { usedQ[q[0]] = 1; });
+    for (var i = 0, tries = 0; i < nMath && tries < 50; tries++) {
+      var mq = window.QUIZ_MATH(rnd);
+      if (chosen.some(function (q) { return q[0] === mq[0]; })) continue;
+      chosen.push(mq); i++;
+    }
+    return shuffle(chosen).slice(0, NQ).map(function (q) {   // on mélange aussi l'ordre des réponses
       var idx = shuffle([0, 1, 2, 3]);
       return { text: q[0], c: idx.map(function (i) { return q[1][i]; }), good: idx.indexOf(q[2]) };
     });
@@ -97,7 +106,7 @@
   function startGame() {
     if (!players().length) { T.toast("Il faut au moins un joueur : scannez le QR code"); return; }
     if (g.round == null) g.round = 0; else g.round++;
-    if (g.round > 8) { quit(true); return newGame(g.cat); }   // au-delà, on repart sur une partie neuve
+    if (g.round > 4) { quit(true); return newGame(g.cat); }   // n° de question ≤ 99 (règles Firebase)   // au-delà, on repart sur une partie neuve
     g.qs = pickQuestions(g.cat); g.i = -1; g.scores = {};
     players().forEach(function (u) { g.scores[u] = 0; });
     T.say("C'est parti pour le quiz ! " + g.qs.length + " questions.");
@@ -169,7 +178,7 @@
     });
     pushMeta({ q: k, text: q.text, c: { 0: q.c[0], 1: q.c[1], 2: q.c[2], 3: q.c[3] }, good: q.good });
     reveal();
-    T.say("La bonne réponse était : " + q.c[q.good] + ".");
+    // (pas de voix à chaque question : la voix gratuite de Google n'a que quelques demandes par jour)
     next = setTimeout(nextQuestion, 7000);
   }
   function ranking() { return players().sort(function (a, b) { return (g.scores[b] || 0) - (g.scores[a] || 0); }); }
@@ -222,7 +231,7 @@
       if (g) quit(true);
       newGame(cat);
     },
-    state: function () { return g ? { gid: g.gid, state: g.state, i: g.i, good: g.qs[g.i] && g.qs[g.i].good, scores: g.scores, n: g.qs.length } : null; },
+    state: function () { return g ? { gid: g.gid, state: g.state, i: g.i, good: g.qs[g.i] && g.qs[g.i].good, scores: g.scores, n: g.qs.length, texts: g.qs.map(function (q) { return q.text; }) } : null; },
     _reveal: function () { doReveal(); }, _next: function () { nextQuestion(); }
   };
 })();

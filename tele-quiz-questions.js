@@ -109,7 +109,154 @@ window.QUIZ_Q = {
     ["Où vit un poisson ?", ["Dans un arbre", "Dans l'eau", "Dans le sable", "Dans les nuages"], 1]
   ]
 };
-window.QUIZ_CATS = { melange: "Mélange", culture: "Culture générale", france: "France", japon: "Japon", sciences: "Sciences et maths", enfants: "Spécial enfants" };
+// ---------- Questions supplémentaires (parties de 20 questions)
+(function (Q) {
+  function add(cat, list) { Q[cat] = (Q[cat] || []).concat(list); }
+  add("culture", [
+    ["Quelle est la capitale de l'Italie ?", ["Milan", "Rome", "Naples", "Turin"], 1],
+    ["Quel est le plus long fleuve d'Afrique ?", ["Le Congo", "Le Niger", "Le Nil", "Le Zambèze"], 2],
+    ["Combien de secondes y a-t-il dans une heure ?", ["360", "600", "3 600", "6 000"], 2],
+    ["Quel est le plus grand désert chaud du monde ?", ["Le Gobi", "Le Kalahari", "Le Sahara", "L'Atacama"], 2],
+    ["Dans quelle ville se trouve la statue de la Liberté ?", ["Washington", "New York", "Boston", "Chicago"], 1],
+    ["Quel est l'animal terrestre le plus rapide ?", ["Le lion", "Le guépard", "L'antilope", "Le cheval"], 1],
+    ["Quelle est la capitale du Maroc ?", ["Casablanca", "Marrakech", "Rabat", "Fès"], 2],
+    ["Qui a écrit « Le Petit Prince » ?", ["Jules Verne", "Antoine de Saint-Exupéry", "Victor Hugo", "Albert Camus"], 1],
+    ["Combien de faces a un dé classique ?", ["4", "6", "8", "12"], 1],
+    ["Quelle est la capitale de l'Allemagne ?", ["Munich", "Francfort", "Berlin", "Hambourg"], 2],
+    ["Combien de joueurs une équipe de basket a-t-elle sur le terrain ?", ["4", "5", "6", "7"], 1],
+    ["Quelle ville est surnommée « la Grosse Pomme » ?", ["Los Angeles", "Chicago", "New York", "Miami"], 2],
+    ["Quel est le plus grand pays du monde par la superficie ?", ["Le Canada", "La Chine", "La Russie", "Les États-Unis"], 2],
+    ["Dans quel pays se trouve Venise ?", ["L'Espagne", "L'Italie", "La Grèce", "La Croatie"], 1],
+    ["Quelle est la capitale de l'Algérie ?", ["Oran", "Alger", "Constantine", "Annaba"], 1],
+    ["Quelle mer sépare l'Europe de l'Afrique ?", ["La mer Rouge", "La mer Méditerranée", "La mer Noire", "La mer du Nord"], 1],
+    ["Qui a peint « La Nuit étoilée » ?", ["Claude Monet", "Vincent van Gogh", "Pablo Picasso", "Paul Cézanne"], 1],
+    ["Quel sport se joue à Roland-Garros ?", ["Le golf", "Le tennis", "Le rugby", "Le cyclisme"], 1],
+    ["En quelle année l'homme a-t-il marché sur la Lune pour la première fois ?", ["1959", "1965", "1969", "1975"], 2],
+    ["Quelle est la capitale de l'Égypte ?", ["Alexandrie", "Le Caire", "Louxor", "Assouan"], 1]
+  ]);
+  add("japon", [
+    ["Comment s'appelle la lutte traditionnelle japonaise entre deux colosses ?", ["Le judo", "Le sumo", "Le karaté", "Le kendo"], 1],
+    ["Comment les Japonais appellent-ils leur pays ?", ["Nihon", "Hanguk", "Zhongguo", "Joseon"], 0],
+    ["Comment s'appellent les guerriers du Japon féodal ?", ["Les vikings", "Les samouraïs", "Les chevaliers", "Les mamelouks"], 1],
+    ["Quel thé vert en poudre sert-on lors de la cérémonie du thé ?", ["Le rooibos", "Le matcha", "Le saké", "Le thé noir"], 1],
+    ["Comment s'appelle la tenue traditionnelle japonaise ?", ["Le sari", "Le kimono", "Le hanbok", "Le qipao"], 1],
+    ["Quelle grande ville est réputée pour sa cuisine de rue, comme les takoyakis ?", ["Osaka", "Sapporo", "Nagoya", "Sendai"], 0],
+    ["Comment appelle-t-on les bandes dessinées japonaises ?", ["Les comics", "Les mangas", "Les webtoons", "Les fumetti"], 1],
+    ["Quel quartier de Tokyo est célèbre pour l'électronique et les mangas ?", ["Akihabara", "Ginza", "Asakusa", "Roppongi"], 0],
+    ["Comment s'appellent les grands portiques rouges des sanctuaires ?", ["Les pagodes", "Les torii", "Les tatamis", "Les shōji"], 1],
+    ["Sur quoi dort-on traditionnellement au Japon ?", ["Un hamac", "Un futon", "Un canapé", "Un lit à baldaquin"], 1],
+    ["Avec quoi mange-t-on traditionnellement au Japon ?", ["Une fourchette", "Des baguettes", "Une cuillère", "Les mains"], 1],
+    ["Quelle entreprise de jeux vidéo est japonaise ?", ["Nintendo", "Microsoft", "Ubisoft", "Electronic Arts"], 0],
+    ["Comment s'appelle le court poème japonais de 3 vers ?", ["Le haïku", "Le sonnet", "La ballade", "Le rondeau"], 0],
+    ["Quelle soupe japonaise est faite à base de pâte de soja fermentée ?", ["Le ramen", "La soupe miso", "Le pho", "Le bortsch"], 1],
+    ["Quelle est l'île principale la plus au nord du Japon ?", ["Kyūshū", "Shikoku", "Hokkaidō", "Honshū"], 2],
+    ["Quelle ville a accueilli les Jeux olympiques d'été en 2021 ?", ["Osaka", "Tokyo", "Kyoto", "Sapporo"], 1],
+    ["Quel art martial japonais signifie « la voie de la souplesse » ?", ["Le judo", "Le sumo", "Le kendo", "Le kyūdō"], 0],
+    ["Quel plat japonais est une boulette garnie de poulpe ?", ["Le gyoza", "Le takoyaki", "La tempura", "Le yakitori"], 1],
+    ["Quelle poupée porte-bonheur a les yeux peints quand un vœu se réalise ?", ["Le daruma", "La kokeshi", "Le maneki-neko", "Le tanuki"], 0],
+    ["Quel animal représente le « maneki-neko », le porte-bonheur qui fait signe de la patte ?", ["Un chien", "Un chat", "Un renard", "Un lapin"], 1]
+  ]);
+  add("france", [
+    ["Quelle est la deuxième ville de France par le nombre d'habitants ?", ["Lyon", "Marseille", "Toulouse", "Nice"], 1],
+    ["Quel fleuve traverse Lyon avec la Saône ?", ["La Loire", "Le Rhône", "La Garonne", "La Seine"], 1],
+    ["Quelle est la devise de la République française ?", ["Liberté, Égalité, Fraternité", "Unité, Travail, Progrès", "Paix, Justice, Liberté", "Honneur et Patrie"], 0],
+    ["Quelle ville accueille chaque mai un célèbre festival de cinéma ?", ["Nice", "Cannes", "Deauville", "Monaco"], 1],
+    ["Comment s'appelle le palais du président de la République ?", ["Le Louvre", "Matignon", "L'Élysée", "Le Palais-Bourbon"], 2],
+    ["Quel musée parisien abrite La Joconde ?", ["Le musée d'Orsay", "Le Louvre", "Le centre Pompidou", "Le Grand Palais"], 1],
+    ["Quelle chaîne de montagnes sépare la France de l'Espagne ?", ["Les Alpes", "Les Pyrénées", "Le Jura", "Les Vosges"], 1],
+    ["Quel est le numéro d'appel d'urgence européen ?", ["15", "17", "112", "18"], 2],
+    ["Quel département porte le numéro 93 ?", ["Le Val-d'Oise", "La Seine-Saint-Denis", "Les Hauts-de-Seine", "Le Val-de-Marne"], 1],
+    ["Quelle cathédrale parisienne a rouvert en décembre 2024, après l'incendie de 2019 ?", ["Le Sacré-Cœur", "Notre-Dame", "La Sainte-Chapelle", "Saint-Sulpice"], 1],
+    ["Quel grand stade se trouve à Saint-Denis ?", ["Le Parc des Princes", "Le Stade de France", "Le Vélodrome", "Le Groupama Stadium"], 1],
+    ["Quelle spécialité vient de Bretagne ?", ["La crêpe", "La bouillabaisse", "La choucroute", "Le cassoulet"], 0],
+    ["Quelle ville est célèbre pour sa bouillabaisse ?", ["Lyon", "Marseille", "Bordeaux", "Lille"], 1],
+    ["Qui a été le premier Français à aller dans l'espace ?", ["Thomas Pesquet", "Jean-Loup Chrétien", "Claudie Haigneré", "Patrick Baudry"], 1],
+    ["Quel est le plus grand aéroport de France ?", ["Orly", "Roissy-Charles-de-Gaulle", "Le Bourget", "Nice-Côte d'Azur"], 1],
+    ["Quelle ville est surnommée la « capitale des Gaules » ?", ["Lyon", "Lille", "Reims", "Tours"], 0],
+    ["Dans quelle région se trouve le Mont-Saint-Michel ?", ["La Bretagne", "La Normandie", "Les Hauts-de-France", "Les Pays de la Loire"], 1],
+    ["Quel monument se dresse en haut des Champs-Élysées ?", ["La tour Eiffel", "L'Arc de triomphe", "Le Panthéon", "Les Invalides"], 1],
+    ["Quelle course cycliste fait le tour du pays chaque été ?", ["Le Giro", "Le Tour de France", "Paris-Roubaix", "La Vuelta"], 1],
+    ["Quel est le plus long fleuve de France qui se jette dans la Méditerranée ?", ["La Loire", "Le Rhône", "La Garonne", "La Seine"], 1]
+  ]);
+  add("sciences", [
+    ["Quel est le symbole chimique de l'or ?", ["Or", "Au", "Ag", "Go"], 1],
+    ["Quel gaz respirons-nous pour vivre ?", ["L'azote", "Le dioxygène", "L'hélium", "Le dioxyde de carbone"], 1],
+    ["Combien de chromosomes contient une cellule humaine ordinaire ?", ["23", "46", "48", "64"], 1],
+    ["Quelle est l'unité de la puissance électrique ?", ["L'ampère", "Le watt", "L'ohm", "Le joule"], 1],
+    ["Combien de côtés a un octogone ?", ["6", "7", "8", "10"], 2],
+    ["Quel est le pH de l'eau pure à 25 °C ?", ["0", "7", "10", "14"], 1],
+    ["Combien vaut 12 au carré ?", ["124", "144", "132", "122"], 1],
+    ["Quel est le plus petit nombre premier ?", ["0", "1", "2", "3"], 2],
+    ["Quelle force nous retient au sol ?", ["Le magnétisme", "La gravité", "Le frottement", "L'électricité"], 1],
+    ["Combien de temps met la lumière du Soleil pour arriver sur Terre, environ ?", ["8 secondes", "8 minutes", "8 heures", "8 jours"], 1],
+    ["Qui a formulé la théorie de la relativité ?", ["Isaac Newton", "Albert Einstein", "Marie Curie", "Galilée"], 1],
+    ["Quelle est la planète la plus éloignée du Soleil ?", ["Uranus", "Neptune", "Saturne", "Mars"], 1],
+    ["À quelle température l'eau pure gèle-t-elle ?", ["−10 °C", "0 °C", "4 °C", "10 °C"], 1],
+    ["Combien vaut la somme des angles d'un triangle ?", ["90°", "180°", "270°", "360°"], 1],
+    ["Sous quel état se trouve la vapeur d'eau ?", ["Solide", "Liquide", "Gazeux", "Cristallin"], 2],
+    ["Quelle est l'unité de l'intensité du courant électrique ?", ["Le volt", "L'ampère", "Le watt", "Le hertz"], 1],
+    ["Quelle est la moitié de 3/4 ?", ["3/8", "1/4", "3/2", "1/8"], 0],
+    ["Quel est le périmètre d'un carré de 5 cm de côté ?", ["10 cm", "20 cm", "25 cm", "15 cm"], 1],
+    ["Quelle partie de la plante absorbe l'eau du sol ?", ["Les feuilles", "Les racines", "La fleur", "Les pétales"], 1],
+    ["Combien de millimètres y a-t-il dans un mètre ?", ["100", "1 000", "10 000", "10"], 1]
+  ]);
+  add("enfants", [
+    ["Quel animal fait « coin-coin » ?", ["Le canard", "Le chat", "Le chien", "La vache"], 0],
+    ["De quelle couleur est le ciel quand il fait beau ?", ["Vert", "Bleu", "Rouge", "Noir"], 1],
+    ["Combien de doigts as-tu sur une main ?", ["4", "5", "6", "10"], 1],
+    ["Quel est le petit de la vache ?", ["Le poulain", "Le veau", "L'agneau", "Le chevreau"], 1],
+    ["Quel fruit rouge a de petits grains sur sa peau ?", ["La fraise", "La banane", "La pomme", "Le kiwi"], 0],
+    ["Quel animal est appelé le roi de la savane ?", ["Le lion", "Le chat", "Le loup", "L'ours"], 0],
+    ["Que met-on à ses pieds avant de sortir ?", ["Un chapeau", "Des chaussures", "Des gants", "Une écharpe"], 1],
+    ["Quel animal saute et porte son bébé dans une poche ?", ["Le kangourou", "Le lapin", "La grenouille", "Le singe"], 0],
+    ["Combien de roues a un vélo ?", ["1", "2", "3", "4"], 1],
+    ["Quelle couleur obtient-on en mélangeant rouge et blanc ?", ["Rose", "Vert", "Bleu", "Marron"], 0],
+    ["Quel jour vient après lundi ?", ["Dimanche", "Mardi", "Jeudi", "Samedi"], 1],
+    ["Quel animal tisse une toile ?", ["La fourmi", "L'araignée", "Le papillon", "L'escargot"], 1],
+    ["Avec quoi se brosse-t-on les dents ?", ["Un peigne", "Une brosse à dents", "Une cuillère", "Un crayon"], 1],
+    ["Que pond la poule ?", ["Du lait", "Des œufs", "De la laine", "Du miel"], 1],
+    ["De quelle couleur est la neige ?", ["Blanche", "Jaune", "Bleue", "Verte"], 0],
+    ["Quel animal a un très long cou ?", ["La girafe", "Le cochon", "Le hérisson", "Le hamster"], 0],
+    ["Combien de pattes a un oiseau ?", ["2", "4", "6", "8"], 0],
+    ["Quel légume orange les lapins adorent-ils ?", ["La carotte", "Le poireau", "Le chou", "Le radis"], 0],
+    ["Quand le soleil se couche, c'est…", ["Le matin", "Midi", "Le soir", "La récré"], 2],
+    ["Quel insecte vit dans une ruche ?", ["La fourmi", "L'abeille", "Le papillon", "La coccinelle"], 1]
+  ]);
+  add("manga", [
+    ["Quel est le rêve de Luffy dans One Piece ?", ["Devenir Hokage", "Devenir le roi des pirates", "Devenir le meilleur sabreur", "Réunir les Dragon Balls"], 1],
+    ["Quel est le rêve de Naruto ?", ["Devenir Hokage", "Devenir pirate", "Devenir Hunter", "Devenir maître Pokémon"], 0],
+    ["Quel démon est scellé dans le corps de Naruto ?", ["Kyûbi, le renard à neuf queues", "Shukaku", "Sukuna", "Ryuk"], 0],
+    ["Combien de boules de cristal faut-il réunir dans Dragon Ball ?", ["5", "7", "9", "12"], 1],
+    ["Quel est le nom saiyan de Son Goku ?", ["Kakarot", "Raditz", "Bardock", "Broly"], 0],
+    ["Quel dieu de la mort laisse tomber le Death Note sur Terre ?", ["Ryuk", "Rem", "Sidoh", "Gelus"], 0],
+    ["Comment s'appelle le héros de L'Attaque des Titans ?", ["Eren Jäger", "Livaï Ackerman", "Armin Arlert", "Reiner Braun"], 0],
+    ["Quel Pokémon accompagne toujours Sacha ?", ["Évoli", "Pikachu", "Salamèche", "Rondoudou"], 1],
+    ["Dans Demon Slayer, comment s'appelle la sœur de Tanjiro ?", ["Nezuko", "Kanao", "Mitsuri", "Shinobu"], 0],
+    ["Qui a créé Dragon Ball ?", ["Eiichirō Oda", "Akira Toriyama", "Masashi Kishimoto", "Tite Kubo"], 1],
+    ["Qui a créé One Piece ?", ["Eiichirō Oda", "Akira Toriyama", "Hajime Isayama", "Kōhei Horikoshi"], 0],
+    ["Quel fruit du démon Luffy a-t-il mangé ?", ["Le fruit du Gum-Gum", "Le fruit de la Flamme", "Le fruit des Ténèbres", "Le fruit du Tremblement"], 0],
+    ["Comment s'appelle le pouvoir transmis à Deku dans My Hero Academia ?", ["One For All", "All For One", "Explosion", "Half-Cold Half-Hot"], 0],
+    ["Combien de sabres Zoro utilise-t-il dans son style de combat ?", ["1", "2", "3", "4"], 2],
+    ["Qui est le professeur de l'équipe 7 dans Naruto ?", ["Jiraiya", "Kakashi", "Iruka", "Gaï"], 1],
+    ["Dans L'Attaque des Titans, qui est surnommé « l'humain le plus fort » ?", ["Erwin", "Livaï", "Hansi", "Mike"], 1],
+    ["Dans Jujutsu Kaisen, quel fléau partage le corps d'Itadori ?", ["Sukuna", "Mahito", "Jogo", "Geto"], 0],
+    ["Comment s'appelle le chat-robot bleu venu du futur ?", ["Doraemon", "Totoro", "Pikachu", "Luna"], 0],
+    ["Quel studio a réalisé « Mon voisin Totoro » ?", ["Le Studio Ghibli", "Toei Animation", "Pierrot", "MAPPA"], 0],
+    ["Qui a réalisé « Le Voyage de Chihiro » ?", ["Hayao Miyazaki", "Makoto Shinkai", "Isao Takahata", "Mamoru Hosoda"], 0],
+    ["Dans Hunter x Hunter, qui Gon part-il chercher ?", ["Son père", "Sa sœur", "Son maître", "Un trésor de pirate"], 0],
+    ["Comment s'appelle le premier vrai navire de l'équipage de Luffy ?", ["Le Thousand Sunny", "Le Vogue Merry", "Le Moby Dick", "L'Oro Jackson"], 1],
+    ["Quel héros chauve bat ses ennemis d'un seul coup de poing ?", ["Saitama", "Genos", "Krilin", "Tenshinhan"], 0],
+    ["Dans Bleach, quel rôle Ichigo obtient-il au début de l'histoire ?", ["Shinigami (dieu de la mort)", "Hokage", "Hunter", "Alchimiste"], 0],
+    ["Dans quel sens lit-on un manga japonais traditionnel ?", ["De gauche à droite", "De droite à gauche", "De bas en haut", "Peu importe"], 1],
+    ["Dans Fullmetal Alchemist, quel frère vit dans une armure ?", ["Edward", "Alphonse", "Roy", "Hohenheim"], 1],
+    ["Quelle est la carte fétiche de Yugi dans Yu-Gi-Oh! ?", ["Le Magicien Sombre", "Le Dragon Blanc aux Yeux Bleus", "Exodia", "Kuriboh"], 0],
+    ["Quel rival de Yugi joue le Dragon Blanc aux Yeux Bleus ?", ["Seto Kaiba", "Joey Wheeler", "Bakura", "Pegasus"], 0],
+    ["Dans Naruto, quel clan possède le Sharingan ?", ["Uchiwa", "Hyûga", "Uzumaki", "Nara"], 0],
+    ["Dans Dragon Ball Z, qui est le fils aîné de Goku ?", ["Goten", "Gohan", "Trunks", "Pan"], 1]
+  ]);
+})(window.QUIZ_Q);
+window.QUIZ_CATS = { melange: "Mélange", culture: "Culture générale", france: "France", japon: "Japon", manga: "Mangas", sciences: "Sciences et maths", enfants: "Spécial enfants" };
+
 // Questions de calcul fabriquées à la demande (toujours justes)
 window.QUIZ_MATH = function (rnd) {
   var ops = [

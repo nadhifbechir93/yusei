@@ -284,8 +284,15 @@
   }
   // ---- Recherche automatique des arrêts (gare RER + station de tram) à partir du nom de la gare
   var PRIM = "https://prim.iledefrance-mobilites.fr/marketplace/";
+  // PRIM refuse souvent les appels venant directement d'un navigateur (code -1 sur la télé).
+  // Si un relais est configuré (petit « Worker » Cloudflare gratuit qui garde la clé), on passe par lui.
+  function primGet(path) {
+    var r = String(cfg.primRelais || "").trim().replace(/\/+$/, "");
+    if (/^https:\/\//.test(r)) return getJSON(r + "/" + path);
+    return getJSON(PRIM + path, { apikey: cfg.primCle });
+  }
   function monitor(ref) {
-    return getJSON(PRIM + "stop-monitoring?MonitoringRef=" + encodeURIComponent(ref), { apikey: cfg.primCle })
+    return primGet("stop-monitoring?MonitoringRef=" + encodeURIComponent(ref))
       .then(function (j) { return j.Siri.ServiceDelivery.StopMonitoringDelivery[0].MonitoredStopVisit || []; });
   }
   // État lisible de la recherche des transports (affiché à l'écran et dans le Diagnostic)
@@ -316,7 +323,7 @@
       });
     }).catch(function () {});
     // 3) recherche PRIM (avec la clé)
-    var nv = getJSON(PRIM + "v2/navitia/places?count=20&type%5B%5D=stop_area&q=" + encodeURIComponent(place), { apikey: cfg.primCle }).then(function (j) {
+    var nv = primGet("v2/navitia/places?count=20&type%5B%5D=stop_area&q=" + encodeURIComponent(place)).then(function (j) {
       (j.places || []).forEach(function (pl) { if (re.test(pl.name || "")) { var m = /(\d{4,7})\s*$/.exec(pl.id || ""); if (m) add(sp(m[1])); } });
     }).catch(function () {});
     return Promise.all([al, od, nv]).then(function () {
@@ -347,7 +354,7 @@
           var codes = res.map(function (r) { return r.err; }).filter(Boolean);
           if (codes.some(function (c) { return c === 401 || c === 403; })) trSet("key", "Clé PRIM refusée (" + codes[0] + ") : sur prim.iledefrance-mobilites.fr, vérifie ton jeton et l'accès à l'API « Prochains passages (requête unitaire) »");
           else if (codes.some(function (c) { return c === 429; })) trSet("quota", "Trop de demandes à PRIM pour aujourd'hui : réessaie plus tard");
-          else if (codes.length === res.length) trSet("net", "PRIM ne répond pas depuis la télé (code " + codes[0] + ")");
+          else if (codes.length === res.length) trSet("net", codes[0] !== -1 ? "PRIM ne répond pas en ce moment (code " + codes[0] + ")" : cfg.primRelais ? "Le relais transports ne répond pas : vérifie son adresse" : "PRIM bloque les appels venant de la télé (code -1) : il faut le relais Cloudflare");
           else trSet("empty", cands.length + " arrêts trouvés, mais aucun passage annoncé en ce moment");
         } else trSet("ok", "");
         return refs;
@@ -370,7 +377,7 @@
     var refs = [];
     (visits || []).forEach(function (v) { var l = v.MonitoredVehicleJourney && v.MonitoredVehicleJourney.LineRef; l = l && (l.value || l); if (typeof l === "string" && refs.indexOf(l) < 0) refs.push(l); });
     Promise.all(refs.slice(0, 3).map(function (ref) {
-      return getJSON(PRIM + "general-message?LineRef=" + encodeURIComponent(ref), { apikey: cfg.primCle }).then(function (j) {
+      return primGet("general-message?LineRef=" + encodeURIComponent(ref)).then(function (j) {
         var d = (((j.Siri || {}).ServiceDelivery || {}).GeneralMessageDelivery || [])[0] || {}, out = [];
         (d.InfoMessage || []).forEach(function (m) {
           var until = m.ValidUntilTime ? new Date(m.ValidUntilTime).getTime() : 0;
@@ -427,7 +434,7 @@
       rerTried = true;
       try { localStorage.removeItem("matele_arrets"); } catch (e) {}  // on recherchera les arrêts au prochain essai
       var c = errCode(e), why = trState.step && trState.step !== "ok" ? trState.msg :
-        c === 401 || c === 403 ? "Clé PRIM refusée (" + c + ")" : c ? "PRIM a répondu par une erreur " + c : "PRIM injoignable depuis la télé";
+        c === 401 || c === 403 ? "Clé PRIM refusée (" + c + ")" : c ? "PRIM a répondu par une erreur " + c : (cfg.primRelais ? "Le relais transports ne répond pas : vérifie son adresse" : "PRIM bloque les appels venant de la télé : il faut le relais Cloudflare");
       if (!trState.step || trState.step === "ok") trSet("err", why);
       $("rerList").innerHTML = '<li class="muted">Horaires indisponibles</li>';
       $("rerBig").innerHTML = '<li class="muted">Horaires indisponibles — ' + esc(why) + "</li>";
@@ -549,7 +556,7 @@
         '<div class="c-desc">' + effet + '</div><span class="c-holo"></span></div>';
     }
     var nom = esc(cfg.jarvisNom || "Yusei");
-    var html = t('data-go="ai"', ICON.spark, nom, "star", "Votre assistant : il répond à tout et pilote la maison.", "legend", "★★★★★");
+    var html = t('data-go="ai"', ICON.spark, nom, "star", "Votre assistant : il répond à toutes vos questions.", "legend", "★★★★★");
     if (premium) {
       html += t('data-go="weather"', ICON.weather, "Météo", "", "Prévisions sur 7 jours au " + esc(cfg.ville) + ".", "azur", "", "#62b8ea", "#1d6fb8");
       html += t('data-go="rer"', ICON.train, "Transports en commun", "", "RER B et tram T11, en temps réel.", "azur", "", "#2f80c4", "#123f78");
@@ -884,6 +891,38 @@
     speakSeq++;
     try { if (window.speechSynthesis) speechSynthesis.cancel(); } catch (e) {}
     srcs.forEach(function (s) { try { s.stop(); } catch (e) {} }); srcs = []; playEnd = 0;
+    relayAudios.forEach(function (a) { try { a.pause(); a.removeAttribute("src"); a.load(); } catch (e) {} }); relayAudios = [];
+  }
+  // ---- Voix par le relais Cloudflare (IA gratuite, lit EXACTEMENT le texte, pas de limite Google)
+  var relayAudios = [], relayBadUntil = 0;
+  function relayBase() { var r = String(cfg.primRelais || "").trim().replace(/\/+$/, ""); return /^https:\/\//.test(r) ? r : ""; }
+  function useRelayVoice() { return !!relayBase() && !/^gemini$/i.test(String(cfg.voixMoteur || "").trim()) && Date.now() > relayBadUntil; }
+  function relayAudio(text) {
+    var a = new Audio(); a.preload = "auto"; a.src = relayBase() + "/tts?t=" + encodeURIComponent(text); relayAudios.push(a); return a;
+  }
+  function playRelayOne(a, seq) {
+    return new Promise(function (res, rej) {
+      if (seq !== speakSeq) return res();
+      var done = false, t = setTimeout(function () { fin(new Error("délai")); }, 15000);
+      function fin(e) { if (done) return; done = true; clearTimeout(t); e ? rej(e) : res(); }
+      a.onended = function () { fin(); };
+      a.onerror = function () { fin(new Error("audio")); };
+      a.onplaying = function () { clearTimeout(t); t = setTimeout(function () { fin(); }, 90000); };
+      try { var p = a.play(); if (p && p.catch) p.catch(function (e) { fin(e); }); } catch (e) { fin(e); }
+    });
+  }
+  // Lit les morceaux un par un (le suivant se télécharge pendant que le précédent est lu).
+  // En cas d'échec, renvoie l'indice du morceau raté pour que la voix Gemini prenne le relais.
+  function speakRelay(parts, seq) {
+    var aud = [], i = 0;
+    function prep(k) { if (k < parts.length && !aud[k]) aud[k] = relayAudio(parts[k]); }
+    prep(0); prep(1);
+    function step() {
+      if (seq !== speakSeq || i >= parts.length) return Promise.resolve(-1);
+      prep(i + 1);
+      return playRelayOne(aud[i], seq).then(function () { i++; return step(); }, function () { return i; });
+    }
+    return step();
   }
   function frVoice() {
     try { var v = window.speechSynthesis ? speechSynthesis.getVoices() : []; return v.filter(function (x) { return /^fr/i.test(x.lang); })[0] || null; } catch (e) { return null; }
@@ -899,11 +938,31 @@
   }
   // Découpe en phrases courtes : la voix Gemini est bien plus fiable sur des morceaux courts
   // (sur un long texte elle peut s'arrêter net ou finir par un grésillement).
+  // Morceaux d'environ 380 caractères : assez courts pour éviter les coupures, assez longs pour ne pas
+  // épuiser la limite gratuite de la voix Google (peu de demandes par minute et par jour).
+  var CHUNK = 380;   // (même découpe pour la voix du relais)
+  // Limite gratuite atteinte : on arrête de demander (sinon chaque essai consomme encore) et on prévient une fois.
+  var ttsBlockedUntil = 0, ttsWarned = false;
+  try { ttsBlockedUntil = parseInt(localStorage.getItem("matele_tts_bloque") || "0", 10) || 0; } catch (e) {}
+  function isQuota(res) {
+    var e = res && res.json && res.json.error;
+    return !!res && (res.status === 429 || (!!e && /quota|resource.?exhausted|rate.?limit/i.test((e.message || "") + " " + (e.status || ""))));
+  }
+  function blockTts(res) {
+    var msg = (res.json && res.json.error && res.json.error.message) || "", perDay = /per.?day|daily|PerDay/i.test(msg);
+    // Google remet les compteurs gratuits à zéro à minuit heure de Californie, soit vers 9 h à Paris.
+    var d = new Date();
+    if (perDay) { var r = new Date(d.getTime()); r.setHours(9, 5, 0, 0); if (r.getTime() <= d.getTime()) r.setDate(r.getDate() + 1); ttsBlockedUntil = r.getTime(); }
+    else ttsBlockedUntil = d.getTime() + 70000;
+    try { localStorage.setItem("matele_tts_bloque", String(ttsBlockedUntil)); } catch (e) {}
+    if (!ttsWarned) { ttsWarned = true; try { overlay("Voix de Yusei", perDay ? "La limite gratuite de la voix Google est atteinte pour aujourd'hui. Yusei écrit ses réponses et reparlera vers 9 h." : "Trop de demandes de voix en une minute : Yusei reparle dans un instant."); } catch (e) {} }
+  }
+  window.__ttsState = function () { return { blockedUntil: ttsBlockedUntil, warned: ttsWarned }; };
   function chunks(text) {
     var parts = String(text).replace(/\s+/g, " ").match(/[^.!?…]+[.!?…]*\s*/g) || [String(text)], out = [], cur = "";
     parts.forEach(function (p) {
-      while (p.length > 220) { var k = p.lastIndexOf(",", 200); k = k > 60 ? k + 1 : 200; out.push(p.slice(0, k)); p = p.slice(k); }
-      if ((cur + p).length > 200 && cur) { out.push(cur); cur = ""; }
+      while (p.length > 420) { var k = p.lastIndexOf(",", 400); k = k > 60 ? k + 1 : 400; out.push(p.slice(0, k)); p = p.slice(k); }
+      if ((cur + p).length > CHUNK && cur) { out.push(cur); cur = ""; }
       cur += p;
     });
     if (cur.trim()) out.push(cur);
@@ -943,7 +1002,10 @@
     var exp = expectedSec(text);
     return sec >= Math.max(0.35, exp * 0.45) && sec <= exp * 2.1 + 1.2;
   }
+  var ttsCache = {};   // phrases courtes déjà dites : rejouées sans redemander à Google
   function ttsOne(text, seq, list) {
+    var ck = text.length <= 140 ? text : null;
+    if (ck && ttsCache[ck]) { playPcm(ttsCache[ck].d, ttsCache[ck].m, seq, text); return Promise.resolve(); }
     var body = JSON.stringify({ contents: [{ role: "user", parts: [{ text: text }] }],
       generationConfig: { responseModalities: ["AUDIO"], speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: cfg.voixNom || "Charon" } } } } });
     var tries = 0, best = null;
@@ -951,7 +1013,9 @@
       if (seq !== speakSeq) return;
       if (i >= list.length) { if (best) playPcm(best.d, best.m, seq, text); return; }   // faute de mieux : le meilleur essai
       tries++;
+      if (Date.now() < ttsBlockedUntil) return;
       return gauth("models/" + encodeURIComponent(list[i]) + ":generateContent", { method: "POST", body: body }).then(function (res) {
+        if (isQuota(res)) { blockTts(res); if (best) playPcm(best.d, best.m, seq, text); return; }
         var p = (res.json && res.json.candidates && res.json.candidates[0] && res.json.candidates[0].content && res.json.candidates[0].content.parts) || [];
         var d = p.filter(function (x) { return x.inlineData && x.inlineData.data; });
         if (!d.length) return again ? tryM(i + 1) : tryM(i, true);   // un 2e essai, puis modèle suivant
@@ -959,11 +1023,12 @@
         if (!audioLooksRight(sec, text)) {
           var gap = Math.abs(sec - expectedSec(text));
           if (!best || gap < best.gap) best = { d: b64, m: mime, gap: gap };
-          if (tries < 3) return again ? tryM(i + 1) : tryM(i, true);
+          if (tries < 2) return again ? tryM(i + 1) : tryM(i, true);
           if (best) playPcm(best.d, best.m, seq, text);
           return;
         }
         ttsModel = list[i];
+        if (ck) ttsCache[ck] = { d: b64, m: mime };
         playPcm(b64, mime, seq, text);
       }, function () { return again ? tryM(i + 1) : tryM(i, true); });
     }
@@ -977,12 +1042,23 @@
     if (v) {   // voix de la télé : une phrase à la fois (évite la coupure des longues phrases)
       try { parts.forEach(function (s) { var u = new SpeechSynthesisUtterance(s); u.voice = v; u.lang = v.lang; u.rate = 1; speechSynthesis.speak(u); }); return; } catch (e) {}
     }
-    if (!cfg.geminiCle) return;
-    ttsChain = ttsChain.then(function () { return ttsModels(); }).then(function (list) {
-      var c = Promise.resolve();
-      parts.forEach(function (s) { c = c.then(function () { if (seq === speakSeq) return ttsOne(s, seq, list); }); });
-      return c;
-    }).catch(function () {});
+    function gem(list2) {
+      if (!cfg.geminiCle || Date.now() < ttsBlockedUntil || !list2.length) return;
+      return ttsModels().then(function (list) {
+        var c = Promise.resolve();
+        list2.forEach(function (s) { c = c.then(function () { if (seq === speakSeq) return ttsOne(s, seq, list); }); });
+        return c;
+      });
+    }
+    if (useRelayVoice()) {
+      ttsChain = ttsChain.then(function () { return speakRelay(parts, seq); }).then(function (failAt) {
+        if (failAt < 0 || seq !== speakSeq) return;
+        relayBadUntil = Date.now() + 10 * 60000;   // relais en panne : Gemini pendant 10 min
+        return gem(parts.slice(failAt));
+      }).catch(function () {});
+      return;
+    }
+    ttsChain = ttsChain.then(function () { return gem(parts); }).catch(function () {});
   }
   if (window.speechSynthesis) { try { speechSynthesis.getVoices(); } catch (e) {} }
 
@@ -1157,9 +1233,9 @@
     ["theme", "Thème (premium, cartes ou clair)"], ["jarvisNom", "Nom de l'IA"], ["appellation", "Comment l'IA t'appelle"],
     ["latitude", "Latitude"], ["longitude", "Longitude"],
     ["geminiCle", "Clé Gemini (IA)"], ["geminiModele", "Modèle Gemini"],
-    ["primCle", "Clé PRIM (transports en commun)"], ["arretRef", "Arrêts (auto, ou identifiants séparés par des virgules)"],
+    ["primCle", "Clé PRIM (transports en commun)"], ["primRelais", "Relais transports (adresse du Worker, https://…)"], ["arretRef", "Arrêts (auto, ou identifiants séparés par des virgules)"],
     ["arretNom", "Nom de la gare"], ["agendaIcs", "Lien iCal de l'agenda"],
-    ["voixTele", "Voix sur la télé (oui / non)"], ["recapDemarrage", "Récap au démarrage (oui / non)"], ["fbApiKey", "Firebase : apiKey"], ["fbUrl", "Firebase : databaseURL"], ["urlTelecommande", "Adresse de la télécommande"]
+    ["voixTele", "Voix sur la télé (oui / non)"], ["voixMoteur", "Moteur de voix (relais / gemini)"], ["recapDemarrage", "Récap au démarrage (oui / non)"], ["fbApiKey", "Firebase : apiKey"], ["fbUrl", "Firebase : databaseURL"], ["urlTelecommande", "Adresse de la télécommande"]
   ];
   function buildForm() {
     $("form").innerHTML = FIELDS.map(function (f) {

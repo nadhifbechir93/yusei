@@ -806,6 +806,8 @@ body.night #bg{-webkit-filter:brightness(.62);filter:brightness(.62)}
 .qz-grid:not(.rev) .qz-a{min-height:200px}
 .qz-grid:not(.rev) .qz-t{font-size:46px}
 .qz-grid.rev .qz-a{min-height:104px;padding:20px 30px}
+.uc-ths{display:flex;flex-wrap:wrap;margin:0 -4px 14px}
+.uc-ths .qz-cat{margin:4px;padding:7px 14px;font-size:17px}
 /* ===== COMPAT TIZEN 4 (généré par compat_css.py) ===== */
 /* ===== COMPAT TIZEN 4 (généré par compat_css.py) ===== */
 .grid{grid-gap:28px}

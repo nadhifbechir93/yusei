@@ -37,7 +37,7 @@
   };
 
   function newGame() {
-    game = { gid: rid(20), players: {}, roles: {}, out: {}, words: null, nbUnder: 0, white: false, used: {}, round: 0, state: "lobby", pending: null };
+    game = { gid: rid(20), players: {}, roles: {}, out: {}, words: null, nbUnder: 0, white: false, used: {}, theme: (game && game.theme) || "", round: 0, state: "lobby", pending: null };
     F().rest("PUT", path("meta"), { host: F().uid(), state: "lobby", round: 0, ts: F().NOW }).then(function () {
       if (playersStream) playersStream.close();
       playersStream = F().stream(path("players"), function (p, data) {
@@ -71,13 +71,35 @@
     render('<div class="uc-lobby"><div class="uc-qr">' + qr.createSvgTag({ cellSize: 8, margin: 2, scalable: true }) + '<div class="uc-scan">Scanne pour rejoindre</div></div>' +
       '<div class="uc-side"><h1>' + SPY + ' Undercover</h1>' +
       '<p class="uc-lead">Chaque joueur reçoit un mot secret sur son téléphone. Un ou plusieurs <b>infiltrés</b> ont un mot légèrement différent… À vous de les démasquer !</p>' +
+      '<div class="uc-ths">' + themeChips() + '</div>' +
       '<div class="uc-count" id="ucCount"></div><div class="uc-players" id="ucPlayers"></div>' +
       '<div class="uc-actions">' + btn("ucDeal", "Distribuer les mots") + btn("ucUnder", "") + btn("ucWhite", "") + btn("ucQuit", "Quitter", "ghost") + "</div>" +
       '<p class="muted small">OK sur un prénom pour retirer ce joueur.</p></div></div>');
     on("ucDeal", deal); on("ucQuit", quit);
     on("ucUnder", function () { game.nbUnder = (game.nbUnder + 1) % 4; optLabels(); });
     on("ucWhite", function () { game.white = !game.white; optLabels(); });
+    Array.prototype.forEach.call(document.querySelectorAll(".uc-th"), function (el) {
+      el._onOk = function () {
+        game.theme = el.dataset.th; game.used = {};
+        Array.prototype.forEach.call(document.querySelectorAll(".uc-th"), function (x) { x.className = "qz-cat uc-th focusable" + (x === el ? " on" : ""); });
+        T.toast("Thème : " + el.textContent);
+      };
+    });
     optLabels(); updateLobbyPlayers();
+  }
+  // ---------- Thèmes (« Tous », « Tous les mangas », puis chaque thème)
+  var ALL = "", MANGAS = "*manga";
+  function themeList() { return [[ALL, "Tous les thèmes"], [MANGAS, "Tous les mangas"]].concat(Object.keys(window.UC_MOTS).map(function (k) { return [k, k]; })); }
+  function themeChips() {
+    return themeList().map(function (t) {
+      return '<div class="qz-cat uc-th focusable' + ((game.theme || "") === t[0] ? " on" : "") + '" data-th="' + esc(t[0]) + '">' + esc(t[1]) + "</div>";
+    }).join("");
+  }
+  function themeKeys() {
+    var th = game.theme || "", keys = Object.keys(window.UC_MOTS);
+    if (th === MANGAS) return keys.filter(function (k) { return /^manga/i.test(k); });
+    if (th && window.UC_MOTS[th]) return [th];
+    return keys;
   }
   function optLabels() {
     $("ucUnder").textContent = "Infiltrés : " + (game.nbUnder ? game.nbUnder : "auto");
@@ -104,7 +126,7 @@
   // ---------- Distribution des rôles
   function pickPair() {
     var all = [];
-    Object.keys(window.UC_MOTS).forEach(function (cat) { window.UC_MOTS[cat].forEach(function (p) { all.push(p); }); });
+    themeKeys().forEach(function (cat) { window.UC_MOTS[cat].forEach(function (p) { all.push(p); }); });
     var fresh = all.filter(function (p) { return !game.used[p.join("|")]; });
     if (!fresh.length) { game.used = {}; fresh = all; }
     var pair = fresh[rnd(fresh.length)].slice();

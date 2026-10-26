@@ -8,7 +8,7 @@
   var Y = window.Yusei, db = Y.db, TS = Y.TS, $ = function (id) { return document.getElementById(id); };
   var refs = [], tv = null, prefs = {}, photoData = null;
   var TILES = ["Météo", "Transports en commun", "Agenda", "Courses", "Télévision", "Toutes mes applis", "Quiz en famille", "Enfants", "Tableau", "Undercover", "Minuteur", "Photos", "YouTube", "Netflix", "Prime Video"];
-  var CATS = [["melange", "Mélange"], ["culture", "Culture générale"], ["france", "France"], ["japon", "Japon"], ["sciences", "Sciences et maths"], ["enfants", "Spécial enfants"]];
+  var CATS = [["melange", "Mélange"], ["culture", "Culture générale"], ["france", "France"], ["japon", "Japon"], ["manga", "Mangas"], ["sciences", "Sciences et maths"], ["enfants", "Spécial enfants"]];
   var qcat = "melange";
 
   function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
