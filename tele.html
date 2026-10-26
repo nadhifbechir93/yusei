@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex">
 <link rel="icon" href="tele-icon.png">
 <meta name="viewport" content="width=1920, height=1080">
-<title>Ma Télé</title>
+<title>Yusei TV APP</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Inter:wght@300;400;500;600;700;800&display=swap">
 <link rel="stylesheet" href="tele.css">
@@ -33,7 +33,7 @@
 
   <div class="infos">
     <div class="info focusable" data-go="rer">
-      <div class="info-t"><span class="pill rer">RER B</span><span id="rerName"></span></div>
+      <div class="info-t"><span class="pill rer">Transports</span><span id="rerName"></span></div>
       <ul class="list" id="rerList"><li class="muted">Chargement…</li></ul>
     </div>
     <div class="info focusable" data-go="agenda">
@@ -79,9 +79,10 @@
   <div class="btn focusable back">← Retour</div>
 </section>
 
-<!-- ===================== RER ===================== -->
+<!-- ===================== TRANSPORTS EN COMMUN ===================== -->
 <section class="screen" id="rer">
-  <h1><span class="pill rer big">RER B</span> Prochains départs · <span id="rerName2"></span></h1>
+  <h1><span class="pill rer big">Transports en commun</span> Prochains départs · <span id="rerName2"></span></h1>
+  <div class="rer-alert" id="rerAlert" style="display:none"></div>
   <ul class="biglist" id="rerBig"></ul>
   <div class="btn focusable back">← Retour</div>
 </section>
@@ -127,6 +128,55 @@
   </div>
   <p class="muted small">Astuce : tu peux tout remplir ici avec la télécommande. Les clés restent masquées et ne quittent jamais la télé.</p>
 </section>
+
+<!-- ===================== RÉCAP DE DÉMARRAGE ===================== -->
+<section class="screen" id="brief">
+  <div class="br-wrap">
+    <div class="br-left">
+      <div class="reactor br-orb"><div class="r1"></div><div class="r2"></div><div class="r3"></div><div class="core"></div></div>
+      <div class="jv-name">Y.U.S.E.I.</div>
+    </div>
+    <div class="br-main">
+      <div class="br-hello" id="brHello">Bonjour</div>
+      <div class="br-text" id="brText"></div>
+      <div class="br-rows">
+        <div class="br-row" id="brMeteo"></div>
+        <div class="br-row" id="brTrans"></div>
+        <div class="br-row" id="brAgendaRow"></div>
+        <div class="br-row" id="brNotes"></div>
+        <div class="br-row" id="brNews"></div>
+      </div>
+      <div class="tiles br-btns">
+        <div class="btn focusable" id="brGo">Aller au menu</div>
+        <div class="btn ghost focusable" id="brAgenda">Compléter l'agenda</div>
+        <div class="btn ghost focusable" id="brAgain">Répéter</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== COURSES ===================== -->
+<section class="screen" id="courses">
+  <h1><svg class="h-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2.2l2.1 10.2a1.6 1.6 0 0 0 1.6 1.3h8.3a1.6 1.6 0 0 0 1.6-1.2L20.5 8H6.1"/><circle cx="9.5" cy="19.5" r="1.4"/><circle cx="17" cy="19.5" r="1.4"/></svg> Liste de courses</h1>
+  <div class="cs-wrap" id="csList"></div>
+  <p class="muted small" id="csHint">Ajoute des articles depuis ton téléphone (onglet Maison), ou dis à Yusei : « ajoute du lait ».</p>
+  <div class="tiles"><div class="btn ghost focusable" id="csClean">Retirer les articles cochés</div><div class="btn focusable back">← Retour</div></div>
+</section>
+
+<!-- ===================== ENFANTS ===================== -->
+<section class="screen" id="enfants">
+  <h1><svg class="h-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="4.5"/><path d="M5 21c.8-3.7 3.6-6 7-6s6.2 2.3 7 6"/></svg> Coin des enfants</h1>
+  <div class="kd-grid">
+    <div class="kd focusable" id="kdStory"><b>Histoire du soir</b><span>Yusei invente et raconte une histoire douce.</span></div>
+    <div class="kd focusable" id="kdHomework"><b>Aide aux devoirs</b><span>Il guide pas à pas, sans donner la réponse.</span></div>
+    <div class="kd focusable" id="kdQuiz"><b>Quiz des petits</b><span>Calcul et questions faciles, chacun sur son téléphone.</span></div>
+  </div>
+  <div class="story" id="kdStoryBox"></div>
+  <div class="btn focusable back">← Retour</div>
+</section>
+
+<!-- ===================== QUIZ EN FAMILLE ===================== -->
+<section class="screen" id="quiz"><div class="qz" id="qz"></div></section>
 
 <!-- ===================== TOUTES MES APPLIS ===================== -->
 <section class="screen" id="apps">
@@ -183,6 +233,8 @@
 </section>
 
 <div id="jvOverlay"><div class="mini-reactor"></div><div><div class="jvo-q" id="jvoQ"></div><div class="jvo-a" id="jvoA"></div></div></div>
+<div id="saver"><div class="sv-clock" id="svClock"></div><div class="sv-date" id="svDate"></div><div class="sv-info" id="svInfo"></div></div>
+<div id="photoPop"><div class="pp-img" id="ppImg"></div><div class="pp-cap" id="ppCap">Photo reçue du téléphone</div></div>
 <div id="toast"></div>
 <script src="tele-qrcode.js"></script>
 <script src="tele-wallpaper.js"></script>
@@ -192,5 +244,9 @@
 <script src="tele-undercover.js"></script>
 <script src="tele-diag.js"></script>
 <script src="tele-link.js"></script>
+<script src="tele-maison.js"></script>
+<script src="tele-quiz-questions.js"></script>
+<script src="tele-quiz.js"></script>
+<script src="tele-kids.js"></script>
 </body>
 </html>

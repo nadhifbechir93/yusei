@@ -16,19 +16,24 @@ window.MATELE_CONFIG = {
   // --- Yusei ------------------------------------------------------
   jarvisNom: "YUSEI",
   appellation: "Monsieur",   // comment Yusei t'appelle
+  voixTele: "oui",           // "non" = Yusei répond sans parler sur la télé
+  voixNom: "Charon",
+  recapDemarrage: "oui",
+  veilleMinutes: 10,          // écran de veille après 10 min sans rien toucher ("non" pour le couper)
+  ageEnfant: 6,               // âge pour les histoires du soir     // "non" = pas de « Bonjour Monsieur » + récap au démarrage         // voix Gemini (Charon = grave et posée)
 
   // --- Assistant IA : Google Gemini (gratuit) --------------------
   // Clé gratuite : https://aistudio.google.com  > "Get API key"
   geminiCle: "",
   geminiModele: "gemini-3.5-flash",
 
-  // --- RER B en direct : Île-de-France Mobilités (gratuit) -------
+  // --- Transports en commun en direct (RER B + tram T11) : Île-de-France Mobilités (gratuit)
   // Compte + jeton gratuit : https://prim.iledefrance-mobilites.fr
   primCle: "",
   // Identifiant de l'arrêt (MonitoringRef) de la gare du Bourget,
   // à copier depuis le jeu de données "Arrêts" sur le site PRIM.
   // Format du type : "STIF:StopArea:SP:XXXXX:"
-  arretRef: "",
+  arretRef: "auto",
   arretNom: "Le Bourget",
 
   // --- Agenda familial -------------------------------------------
@@ -39,8 +44,8 @@ window.MATELE_CONFIG = {
   // Laisse vide [] : paysages au hasard pris sur Internet.
   // Ou mets tes photos dans le dossier "photos/" et liste-les ici :
   // photos: ["photos/photo1.jpg", "photos/photo2.jpg"],
-  photos: [],
-  fondEnLigne: true,   // false = uniquement les paysages dessinés par l'appli (aucune connexion)
+  photos: ["tele-fond.jpg"],   // ton fond : Paris · Tunisie · désert
+  fondEnLigne: false,   // false = uniquement les paysages dessinés par l'appli (aucune connexion)
 
   // --- Liaison avec le téléphone (Firebase, gratuit) -------------
   // Copie ici les valeurs de ton projet Firebase (voir LISEZMOI.txt)
@@ -60,7 +65,6 @@ window.MATELE_CONFIG = {
       web: "https://www.youtube.com/" },          // web : utilisé dans la version navigateur
     { nom: "Netflix", match: "netflix", ids: ["3201907018807", "11101200001", "org.tizen.netflix-app"], couleur: "#e50914" },
     { nom: "Prime Video", match: "prime ?video|amazon", ids: ["3201910019365", "3201512006785", "org.tizen.ignition"], couleur: "#1fa2e8" },
-    { nom: "Disney+", match: "disney", ids: ["3201901017640", "3202009021709", "3202204027038"], couleur: "#2a5bd7" },
     // Les suivantes n'apparaissent sur l'accueil QUE si elles sont installées sur la télé :
     { nom: "myCANAL", match: "canal", couleur: "#111111", siInstallee: true },
     { nom: "france.tv", match: "france ?\\.?tv", couleur: "#1f3cff", siInstallee: true },

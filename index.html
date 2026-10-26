@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#1a1816">
 <meta name="referrer" content="no-referrer">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://apis.google.com https://www.gstatic.com https://*.firebaseio.com https://*.firebasedatabase.app; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com wss://*.firebaseio.com https://*.firebasedatabase.app wss://*.firebasedatabase.app; frame-src https://*.firebaseapp.com https://*.web.app https://accounts.google.com https://apis.google.com https://*.firebaseio.com https://*.firebasedatabase.app; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; base-uri 'none'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://apis.google.com https://www.gstatic.com https://*.firebaseio.com https://*.firebasedatabase.app; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com wss://*.firebaseio.com https://*.firebasedatabase.app wss://*.firebasedatabase.app; frame-src https://*.firebaseapp.com https://*.web.app https://accounts.google.com https://apis.google.com https://*.firebaseio.com https://*.firebasedatabase.app; img-src 'self' data: blob: https:; style-src 'self' 'unsafe-inline'; base-uri 'none'; form-action 'self'">
 <title>Yusei</title>
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icon.png">
@@ -47,6 +47,7 @@
   <nav class="tabs">
     <button class="tab on" data-tab="tabRemote">Télécommande</button>
     <button class="tab" data-tab="tabDraw">Dessin</button>
+    <button class="tab" data-tab="tabHome">Maison</button>
     <button class="tab" data-tab="tabGames">Jeux</button>
   </nav>
 
@@ -101,7 +102,63 @@
     </div>
   </div>
 
+  <div id="tabHome" class="tabpane">
+    <p class="pane-note">Tout ce que tu envoies ici arrive sur la télé, même si tu n'es pas à la maison. Si la télé est éteinte, ça s'affichera à son allumage.</p>
+
+    <section class="card">
+      <h3>Message à la télé</h3>
+      <form id="noteForm" class="line"><input id="noteText" maxlength="200" placeholder="Ex : Je rentre à 19 h" autocomplete="off"><button type="submit" class="go">Envoyer</button></form>
+      <ul class="items" id="noteList"></ul>
+    </section>
+
+    <section class="card">
+      <h3>Liste de courses</h3>
+      <form id="csForm" class="line"><input id="csText" maxlength="60" placeholder="Ajouter un article" autocomplete="off"><button type="submit" class="go">Ajouter</button></form>
+      <ul class="items" id="csItems"></ul>
+      <button class="mini" id="csCleanTel">Retirer les articles cochés</button>
+    </section>
+
+    <section class="card">
+      <h3>Pense-bête à heure fixe</h3>
+      <form id="rpForm">
+        <input id="rpText" maxlength="120" placeholder="Ex : Sortir les poubelles" autocomplete="off">
+        <div class="line"><input id="rpAt" type="datetime-local"><button type="submit" class="go">Programmer</button></div>
+      </form>
+      <ul class="items" id="rpList"></ul>
+    </section>
+
+    <section class="card">
+      <h3>Envoyer une photo</h3>
+      <label class="file"><input type="file" id="phFile" accept="image/*"><span>Choisir une photo</span></label>
+      <div class="ph-prev" id="phPrev"></div>
+      <label class="toggle"><input type="checkbox" id="phFond"> En faire le fond d'écran de la télé</label>
+      <button class="go wide" id="phSend" disabled>Afficher sur la télé</button>
+    </section>
+
+    <section class="card">
+      <h3>Compte à rebours</h3>
+      <form id="cdForm">
+        <input id="cdTitle" maxlength="40" placeholder="Ex : Voyage au Japon" autocomplete="off">
+        <div class="line"><input id="cdDate" type="date"><button type="submit" class="go">Enregistrer</button></div>
+      </form>
+      <p class="sub small" id="cdNow"></p>
+    </section>
+
+    <section class="card">
+      <h3>Tuiles affichées sur la télé</h3>
+      <p class="sub small">Touche une tuile pour la masquer ou la remettre.</p>
+      <div class="chips" id="tilesBox"></div>
+    </section>
+  </div>
+
   <div id="tabGames" class="tabpane">
+    <div class="game-card">
+      <div class="game-ico"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="4"/><path d="M9.6 9.3a2.5 2.5 0 1 1 3.6 2.2c-.8.4-1.2 1-1.2 1.8v.4"/><circle cx="12" cy="16.8" r=".7"/></svg></div>
+      <h2>Quiz en famille</h2>
+      <p class="sub">Chacun répond sur son téléphone en scannant le QR code. Choisis un thème :</p>
+      <div class="chips center" id="qzCats"></div>
+      <button class="primary" id="btnQuiz">Lancer le quiz sur la télé</button>
+    </div>
     <div class="game-card">
       <div class="game-ico"><svg viewBox="0 0 24 24"><path d="M3 11h18M6 11l1.5-6h9L18 11"/><circle cx="8" cy="16" r="3"/><circle cx="16" cy="16" r="3"/><path d="M11 16h2"/></svg></div>
       <h2>Undercover</h2>
@@ -126,5 +183,6 @@
 <script src="firebase-database-compat.js"></script>
 <script src="config.js"></script>
 <script src="app.js"></script>
+<script src="maison.js"></script>
 </body>
 </html>

@@ -173,3 +173,39 @@ input:focus{border-color:rgba(233,162,59,.7)}
 
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 @media (max-width:370px){.ring{width:226px;height:226px}.k.ok{width:92px;height:92px;margin:-46px 0 0 -46px}}
+
+/* ---------- Onglet Maison ---------- */
+.pane-note{color:var(--muted);font-size:13.5px;line-height:1.5;margin:0 4px 14px}
+.card{border-radius:24px;padding:16px 16px 14px;margin-bottom:14px;background:linear-gradient(180deg,#26231f,#1d1b18);box-shadow:inset 0 2px 8px rgba(0,0,0,.55),0 1px 0 rgba(255,255,255,.05)}
+.card h3{font-size:16px;font-weight:700;margin:0 0 12px;color:var(--gold-soft)}
+.card form>*+*{margin-top:8px}
+.line{display:flex;align-items:center}
+.line input{flex:1;min-width:0}
+.go{flex:none;margin-left:8px;padding:14px 16px;border-radius:16px;font-weight:700;color:#2a1a05;background:linear-gradient(180deg,#f6c66e,#e09a33)}
+.go:disabled{opacity:.45}
+.go.wide{width:100%;margin:10px 0 0}
+.items{list-style:none;margin-top:10px}
+.items li{display:flex;align-items:center;padding:10px 4px;border-top:1px solid rgba(255,255,255,.06);font-size:15px}
+.items li.empty{color:var(--muted);justify-content:center}
+.items li.done .it-t{text-decoration:line-through;color:var(--muted)}
+.it-t{flex:1;min-width:0;word-break:break-word}
+.it-w{flex:none;margin-right:10px;color:var(--gold-soft);font-size:13px;font-weight:700}
+.x{flex:none;width:34px;height:34px;border-radius:50%;margin-left:8px;color:var(--muted);font-size:20px;background:var(--key)}
+.chk{flex:none;width:28px;height:28px;border-radius:9px;margin-right:12px;background:#151311;box-shadow:inset 0 2px 4px rgba(0,0,0,.8),0 0 0 1.5px #3a352f;position:relative}
+.chk.on{background:linear-gradient(180deg,#f6c66e,#e09a33)}
+.chk.on::after{content:"";position:absolute;left:9px;top:4px;width:7px;height:14px;border-right:3px solid #2a1a05;border-bottom:3px solid #2a1a05;transform:rotate(45deg)}
+.mini{margin-top:10px;padding:9px 14px;border-radius:12px;font-size:13px;color:var(--muted);background:var(--key)}
+.file{display:block;position:relative;padding:14px;border-radius:16px;text-align:center;font-weight:600;background:var(--key);box-shadow:inset 0 1px 0 rgba(255,255,255,.07)}
+.file input{position:absolute;top:0;left:0;width:100%;height:100%;opacity:0}
+.ph-prev{display:none;height:180px;margin-top:10px;border-radius:16px;background:#000 center/contain no-repeat}
+.ph-prev.on{display:block}
+.card .toggle{margin-top:6px}
+input[type=date],input[type=datetime-local]{color-scheme:dark}
+.chips{display:flex;flex-wrap:wrap;margin:0 -4px}
+.chips.center{justify-content:center;margin-bottom:14px}
+.chip{margin:4px;padding:9px 13px;border-radius:20px;font-size:13.5px;font-weight:600;background:var(--key);box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 0 0 1px #141210}
+.chip.on{color:#2a1a05;background:linear-gradient(180deg,#f6c66e,#e09a33)}
+.chip.off{color:#7d756b;text-decoration:line-through}
+#tilesBox .chip.on{color:var(--glyph);background:linear-gradient(180deg,var(--key-hi),var(--key));box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 0 0 1px var(--gold)}
+.tabs .tab{font-size:13px}
+#tabGames .game-card+.game-card{margin-top:14px}

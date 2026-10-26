@@ -174,9 +174,11 @@
   }
 
   // ---------- Démarrage des flux
+  var linkHooks = [], hooksOn = false;
   function closeStreams() {
     if (cmdStream) { cmdStream.close(); cmdStream = null; }
     if (drawStream) { drawStream.close(); drawStream = null; }
+    if (hooksOn) { hooksOn = false; linkHooks.forEach(function (fn) { try { fn(false); } catch (e) {} }); }
   }
   var drawStream = null;
   function startStreams() {
@@ -189,6 +191,7 @@
         if (window.LinkStatus !== "ok") { clearPairCode(); setStatus("ok", "Téléphone connecté ✓"); }
         if (!cmdStream) cmdStream = stream("house/cmd/" + auth.uid, onCmds);
         if (!drawStream) drawStream = stream("house/draw/" + auth.uid, onDraw);
+        if (!hooksOn) { hooksOn = true; linkHooks.forEach(function (fn) { try { fn(true); } catch (e) {} }); }   // messages, courses… (maison.js)
       } else {
         closeStreams();
         newPairCode().catch(retryLater);
@@ -202,6 +205,7 @@
     uid: function () { return auth.uid; },
     rest: rest, stream: stream, NOW: NOW,
     clearBoard: clearBoard,
+    onLink: function (fn) { linkHooks.push(fn); if (hooksOn) fn(true); },
     phoneUrl: function () { return (cfg.urlTelecommande || "").replace(/\/+$/, ""); }
   };
   var retryT;

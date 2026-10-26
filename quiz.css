@@ -1,0 +1,42 @@
+/* Quiz en famille — page joueur (même matière que la télécommande) */
+:root{--glyph:#ece5d9;--muted:#a39a8e;--gold:#e9a23b;--gold-soft:#f7d98a}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{min-height:100vh;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--glyph);background:radial-gradient(120% 70% at 50% 0%,#2a2622 0%,#121110 65%)}
+.q{max-width:480px;margin:0 auto;padding:18px 16px 30px;text-align:center}
+.q-head{display:flex;align-items:center;padding:6px 4px 18px}
+.q-mark{width:26px;height:26px;border-radius:50%;flex:none;background:radial-gradient(circle at 50% 38%,#3a352f,#1b1916);box-shadow:0 0 0 2px #3b362f,0 0 0 3px rgba(233,162,59,.9),0 0 12px rgba(233,162,59,.4)}
+.q-title{flex:1;text-align:left;margin-left:12px;font-weight:700;font-size:16px}
+.q-score{font-weight:800;color:var(--gold-soft)}
+.s{display:none}.s.on{display:block}
+h1{font-size:28px;font-weight:800;letter-spacing:-.01em;margin:10px 0 8px}
+.sub{color:var(--muted);font-size:15px;line-height:1.5;margin:8px auto;max-width:34ch}
+.big{font-size:19px;line-height:1.5;margin:10px 0}
+.err{color:#f08a7f;min-height:20px;margin-top:10px}
+form{margin-top:18px}
+input{font:inherit;width:100%;font-size:20px;padding:15px 18px;border-radius:16px;border:1px solid #38332d;background:#171513;color:var(--glyph);outline:none;text-align:center;box-shadow:inset 0 2px 6px rgba(0,0,0,.6)}
+input:focus{border-color:rgba(233,162,59,.7)}
+button{font:inherit;border:none;cursor:pointer;color:inherit}
+.primary{width:100%;margin-top:10px;padding:16px;border-radius:18px;font-weight:800;font-size:17px;color:#2a1a05;background:linear-gradient(180deg,#f6c66e,#e09a33);box-shadow:0 8px 20px rgba(233,162,59,.25)}
+.pulse{width:90px;height:90px;border-radius:50%;margin:30px auto 10px;background:radial-gradient(circle at 50% 35%,#3a352f,#1f1c19);box-shadow:0 0 0 3px #4b443b,0 0 0 6px rgba(233,162,59,.8);animation:pl 1.6s ease-in-out infinite}
+@keyframes pl{50%{box-shadow:0 0 0 3px #4b443b,0 0 0 14px rgba(233,162,59,.15)}}
+.q-num{color:var(--gold-soft);font-weight:700;font-size:15px}
+.q-text{font-size:21px;font-weight:700;line-height:1.35;margin:10px 0 18px}
+.answers{display:flex;flex-wrap:wrap;margin:0 -6px}
+.ans{width:calc(50% - 12px);margin:6px;min-height:118px;border-radius:22px;padding:14px 12px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.3),inset 0 -3px 0 rgba(0,0,0,.25),0 8px 18px rgba(0,0,0,.45)}
+.ans:active{transform:translateY(2px) scale(.98)}
+.ans .l{font-size:26px;font-weight:900;opacity:.8}.ans .t{font-size:15px;font-weight:700;margin-top:6px;line-height:1.3}
+.a0{background:linear-gradient(180deg,#f0b445,#c47c14)}.a1{background:linear-gradient(180deg,#3d93d8,#1a5c9c)}
+.a2{background:linear-gradient(180deg,#e0784a,#a8481f)}.a3{background:linear-gradient(180deg,#8fb35e,#4f7a2c)}
+.q-bar{height:8px;border-radius:4px;background:#1a1816;margin-top:16px;overflow:hidden;box-shadow:inset 0 1px 3px rgba(0,0,0,.7)}
+.q-bar i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#e09a33,#f7d98a);transition:width .2s linear}
+.verdict{margin:30px auto 10px;font-size:34px;font-weight:900;padding:28px;border-radius:26px}
+.verdict.ok{color:#173d22;background:linear-gradient(180deg,#a8e3b8,#5fbf8a)}
+.verdict.ko{color:#4a1410;background:linear-gradient(180deg,#f4a79e,#d9574b)}
+.verdict.none{color:var(--glyph);background:#26231f}
+.podium{margin:16px 0}
+.pod{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-radius:16px;margin:8px 0;background:#26231f;box-shadow:inset 0 1px 0 rgba(255,255,255,.06)}
+.pod.p1{color:#2a1a05;background:linear-gradient(180deg,#f8d283,#e09a33)}
+.pod span{font-weight:700}
+#toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%);background:#2b2824;color:#fff;padding:10px 18px;border-radius:30px;opacity:0;transition:opacity .3s}
+#toast.on{opacity:1}

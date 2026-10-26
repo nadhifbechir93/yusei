@@ -86,8 +86,11 @@
   };
 
   // ---------- Écran principal
+  var tvHooks = [];
+  window.Yusei = { db: db, TS: TS, toast: toast, vibrate: vibrate, send: function (t, e) { return send(t, e); }, tv: function () { return tv; }, onTv: function (fn) { tvHooks.push(fn); if (tv) fn(tv); } };
   function openTv(id, nom) {
     tv = id;
+    tvHooks.forEach(function (fn) { try { fn(id); } catch (e) {} });
     localStorage.setItem("jarvis_tv", id);
     $("tvName").textContent = nom || "Télé";
     view("vMain");

@@ -28,7 +28,7 @@
     ["launch", "1. Installation : droit de lancer d'autres applis"],
     ["store", "2. Mise en place : mémoire des réglages"],
     ["gemini", "2. Mise en place : clé Gemini (Yusei)"],
-    ["prim", "2. Mise en place : clé RER (PRIM)"],
+    ["prim", "2. Mise en place : transports en commun (PRIM)"],
     ["ical", "2. Mise en place : agenda"],
     ["fb", "2. Mise en place : liaison avec le téléphone"],
     ["net", "3. Mise en marche : Internet (météo)"],
@@ -36,8 +36,7 @@
     ["perf", "3. Mise en marche : fluidité de l'animation"],
     ["yt", "4. Applis : YouTube"],
     ["nf", "4. Applis : Netflix"],
-    ["pv", "4. Applis : Prime Video"],
-    ["dp", "4. Applis : Disney+"]
+    ["pv", "4. Applis : Prime Video"]
   ];
 
   function run() {
@@ -50,7 +49,7 @@
 
     // ---- 1. Installation
     if (T.isTizen) S("mode", "ok", "Appli installée sur la télé (méthode B)");
-    else if (T.isWeb) S("mode", "ok", "Navigateur de la télé (méthode A) — Netflix/Prime/Disney+ via le bouton Accueil");
+    else if (T.isWeb) S("mode", "ok", "Navigateur de la télé (méthode A) — Netflix/Prime via le bouton Accueil");
     else S("mode", "warn", "Ouvert sur un ordinateur (aperçu)");
     if (T.isTizen) {
       try { var k = tizen.tvinputdevice.getKey("ColorF0Red"); S("keys", k ? "ok" : "warn", k ? "Flèches, OK, Retour et touches couleur actives" : "Touches couleur indisponibles"); }
@@ -70,10 +69,11 @@
       S("gemini", "ok", "Yusei répond (modèle " + T.cfg().geminiModele + ")");
     }, function (e) { S("gemini", "ko", String(e.message || "Pas de réponse").slice(0, 110)); }));
 
-    if (!cfg.primCle || !cfg.arretRef) S("prim", "warn", "Non configuré (facultatif)");
-    else jobs.push(timeout(fetch("https://prim.iledefrance-mobilites.fr/marketplace/stop-monitoring?MonitoringRef=" + encodeURIComponent(cfg.arretRef), { headers: { apikey: cfg.primCle } }), 15000)
-      .then(function (r) { S("prim", r.ok ? "ok" : "ko", r.ok ? "Horaires reçus" : r.status === 401 || r.status === 403 ? "Clé refusée" : "Erreur " + r.status + " (vérifie l'identifiant d'arrêt)"); },
-            function (e) { S("prim", "ko", "Injoignable (" + e.message + ")"); }));
+    if (!cfg.primCle) S("prim", "warn", "Non configuré (facultatif)");
+    else jobs.push(timeout(T.stopRefs(), 30000).then(function (refs) {
+      if (!refs.length) { S("prim", "ko", (T.transportStatus().msg || "Arrêts introuvables : vérifie la clé PRIM et le nom de la gare").slice(0, 160)); return; }
+      return timeout(T.monitor(refs[0]), 15000).then(function () { S("prim", "ok", "Horaires reçus (" + refs.length + " arrêt" + (refs.length > 1 ? "s : RER + tram" : "") + ")"); });
+    }).catch(function (e) { S("prim", "ko", /40[13]/.test(e.message) ? "Clé refusée" : "Injoignable (" + e.message + ")"); }));
 
     if (!cfg.agendaIcs) S("ical", "warn", "Non configuré (facultatif)");
     else jobs.push(timeout(fetch(cfg.agendaIcs), 15000).then(function (r) { return r.text().then(function (t) {
@@ -91,7 +91,7 @@
     jobs.push(new Promise(function (res) {
       var img = new Image(), done = false;
       var t = setTimeout(function () { if (!done) { done = true; S("bg", "ok", "Paysages dessinés par l'appli (photos en ligne trop lentes)"); res(); } }, 12000);
-      img.onload = function () { if (!done) { done = true; clearTimeout(t); S("bg", "ok", "Photos en ligne chargées"); res(); } };
+      img.onload = function () { if (!done) { done = true; clearTimeout(t); S("bg", "ok", cfg.photos && cfg.photos.length ? "Ton fond d'écran personnel est chargé" : "Photos en ligne chargées"); res(); } };
       img.onerror = function () { if (!done) { done = true; clearTimeout(t); S("bg", "ok", "Paysages dessinés par l'appli (photos en ligne indisponibles)"); res(); } };
       img.src = (cfg.photos && cfg.photos[0]) || "https://picsum.photos/320/180?random=" + Date.now();
     }));
@@ -105,7 +105,7 @@
 
     // ---- 4. Applis
     jobs.push(new Promise(function (res) { T.discoverApps(res); }).then(function () {
-      [["yt", "YouTube"], ["nf", "Netflix"], ["pv", "Prime Video"], ["dp", "Disney+"]].forEach(function (p) {
+      [["yt", "YouTube"], ["nf", "Netflix"], ["pv", "Prime Video"]].forEach(function (p) {
         var a = T.appByName(p[1]);
         if (!a) { S(p[0], "skip", "Pas de tuile pour cette appli"); return; }
         if (T.isTizen) {

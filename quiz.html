@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1a1816">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://apis.google.com https://www.gstatic.com https://*.firebaseio.com https://*.firebasedatabase.app; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com wss://*.firebaseio.com https://*.firebasedatabase.app wss://*.firebasedatabase.app; frame-src https://*.firebaseapp.com https://*.web.app https://accounts.google.com https://apis.google.com https://*.firebaseio.com https://*.firebasedatabase.app; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; base-uri 'none'; form-action 'self'">
+<meta name="robots" content="noindex">
+<title>Quiz en famille</title>
+<link rel="icon" href="icon.png">
+<link rel="stylesheet" href="quiz.css">
+</head>
+<body>
+<main class="q">
+  <header class="q-head"><span class="q-mark"></span><span class="q-title">Quiz en famille</span><span class="q-score" id="myScore"></span></header>
+
+  <section id="sJoin" class="s">
+    <h1>Rejoins la partie</h1>
+    <p class="sub">Entre ton prénom : il s'affichera sur la télé.</p>
+    <form id="fJoin"><input id="name" maxlength="20" autocomplete="given-name" placeholder="Ton prénom" required><button class="primary">Rejoindre</button></form>
+    <p class="err" id="err"></p>
+  </section>
+
+  <section id="sWait" class="s">
+    <div class="pulse"></div>
+    <h1>Tu es inscrit, <span id="me"></span> !</h1>
+    <p class="sub" id="waitTxt">Regarde la télé : le quiz va commencer.</p>
+  </section>
+
+  <section id="sPlay" class="s">
+    <p class="q-num" id="qNum"></p>
+    <p class="q-text" id="qText"></p>
+    <div class="answers" id="answers"></div>
+    <div class="q-bar"><i id="qBar"></i></div>
+  </section>
+
+  <section id="sSent" class="s">
+    <div class="pulse"></div>
+    <h1>Réponse envoyée</h1>
+    <p class="sub">Attends les autres… la bonne réponse arrive sur la télé.</p>
+  </section>
+
+  <section id="sResult" class="s">
+    <div class="verdict" id="verdict"></div>
+    <p class="big" id="resTxt"></p>
+    <p class="sub" id="rankTxt"></p>
+  </section>
+
+  <section id="sEnd" class="s">
+    <h1>Fin du quiz</h1>
+    <div class="podium" id="podium"></div>
+    <p class="big" id="endTxt"></p>
+    <p class="sub">Une nouvelle partie peut être lancée depuis la télé.</p>
+  </section>
+
+  <section id="sGone" class="s"><h1>Partie terminée</h1><p class="sub">Scanne le nouveau QR code sur la télé pour rejouer.</p></section>
+</main>
+<div id="toast"></div>
+<script src="firebase-app-compat.js"></script>
+<script src="firebase-auth-compat.js"></script>
+<script src="firebase-database-compat.js"></script>
+<script src="config.js"></script>
+<script src="quiz.js"></script>
+</body>
+</html>
