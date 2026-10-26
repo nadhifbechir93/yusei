@@ -118,7 +118,7 @@
   }
 
   // Télécommande
-  document.querySelectorAll("[data-key]").forEach(function (b) { b.onclick = function () { send("key", { arg: b.dataset.key }); }; });
+  document.querySelectorAll("[data-key]").forEach(function (b) { b.onclick = function () { vibrate(); send("key", { arg: b.dataset.key }); }; });
   document.querySelectorAll("[data-go]").forEach(function (b) { b.onclick = function () { send("go", { arg: b.dataset.go }); }; });
   document.querySelectorAll("[data-app]").forEach(function (b) { b.onclick = function () { send("app", { arg: b.dataset.app }); }; });
   document.querySelectorAll("[data-timer]").forEach(function (b) { b.onclick = function () { send("timer", { arg: b.dataset.timer }); toast("Minuteur lancé"); }; });
@@ -181,7 +181,7 @@
       .sort(function (a, b) { return (/male|homme|thomas|paul|henri/i.test(b.name) ? 1 : 0) - (/male|homme|thomas|paul|henri/i.test(a.name) ? 1 : 0); })[0] || null;
   }
   if (window.speechSynthesis) { pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
-  $("optVoice").checked = localStorage.getItem("jarvis_voice") !== "0";
+  $("optVoice").checked = localStorage.getItem("jarvis_voice") === "1";   // par défaut c'est la télé qui parle
   $("optVoice").onchange = function () { localStorage.setItem("jarvis_voice", $("optVoice").checked ? "1" : "0"); };
   function speak(t) {
     if (!window.speechSynthesis || !$("optVoice").checked) return;
