@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f5f3ff">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://apis.google.com https://www.gstatic.com https://*.firebaseio.com https://*.firebasedatabase.app; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com wss://*.firebaseio.com https://*.firebasedatabase.app wss://*.firebasedatabase.app; frame-src https://*.firebaseapp.com https://*.web.app https://accounts.google.com https://apis.google.com https://*.firebaseio.com https://*.firebasedatabase.app; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; base-uri 'none'; form-action 'self'">
+<meta name="robots" content="noindex">
+<title>Undercover</title>
+<link rel="icon" href="icon.png">
+<link rel="stylesheet" href="jeu.css">
+</head>
+<body>
+<main class="g">
+  <div class="g-logo"><svg class="g-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5h18"/><path d="M6.2 11.5l1.4-5.2a2 2 0 0 1 2.7-1.3l1.7.8 1.7-.8a2 2 0 0 1 2.7 1.3l1.4 5.2"/><circle cx="8" cy="16.2" r="2.7"/><circle cx="16" cy="16.2" r="2.7"/><path d="M10.7 16h2.6"/></svg></div>
+  <h1>Undercover</h1>
+
+  <section id="sJoin" class="s">
+    <p class="sub">Entre ton prénom pour rejoindre la partie sur la télé.</p>
+    <form id="fJoin"><input id="name" maxlength="20" autocomplete="given-name" placeholder="Ton prénom" required><button class="primary">Rejoindre</button></form>
+    <p class="err" id="err"></p>
+  </section>
+
+  <section id="sWait" class="s"><p class="big">✅ Tu es dans la partie, <b id="me"></b> !</p><p class="sub">Regarde la télé : les mots vont être distribués.</p></section>
+
+  <section id="sWord" class="s">
+    <p class="sub">Ton mot secret (ne le montre à personne) :</p>
+    <button id="card" class="card hidden"><span id="cardTxt">Appuie pour voir ton mot</span></button>
+    <p class="sub small" id="hint">Appuie de nouveau pour le cacher.</p>
+  </section>
+
+  <section id="sOut" class="s"><p class="big" id="outTxt"></p></section>
+  <section id="sEnd" class="s"><p class="big" id="endTxt"></p><div class="words" id="endWords"></div><p class="sub">Une nouvelle manche peut commencer depuis la télé.</p></section>
+  <section id="sGone" class="s"><p class="big">Cette partie est terminée.</p><p class="sub">Scanne le nouveau QR code sur la télé pour rejouer.</p></section>
+</main>
+<div id="toast"></div>
+<script src="firebase-app-compat.js"></script>
+<script src="firebase-auth-compat.js"></script>
+<script src="firebase-database-compat.js"></script>
+<script src="config.js"></script>
+<script src="jeu.js"></script>
+</body>
+</html>

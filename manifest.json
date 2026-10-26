@@ -1,0 +1,9 @@
+{
+  "name": "Yusei — Ma Télé",
+  "short_name": "Yusei",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f2f6fa",
+  "theme_color": "#f2f6fa",
+  "icons": [{ "src": "icon.png", "sizes": "512x512", "type": "image/png" }]
+}
